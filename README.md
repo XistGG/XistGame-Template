@@ -63,8 +63,7 @@ In particular you will want to make a manual edit to the top of `Config/DefaultE
 ## Follow-up
 
 After you complete the steps above, open Rider, build the project, start the UEditor,
-then "Resave All" of the `Content` assets.
+then "Resave All" of the `Content` assets.  This will save them all using your new
+project name.
 
 After you do that, you can remove the `[CoreRedirects]` section from `DefaultEngine.ini`
-
-(Conversely you can "Fixup Redirects" if you don't want to Resave All)
