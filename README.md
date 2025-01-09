@@ -27,16 +27,21 @@ cd $NewGameName
 Remove-Item -force -recurse .git
 
 # Get list of dirs that need to be renamed
-$Dirs = Get-ChildItem -Path $NewGameDir -Recurse -Include "*${OldGameName}*" -Dir | %{ $_.FullName }
+$Dirs = Get-ChildItem -Path $NewGameDir -Recurse -Include "*${OldGameName}*" -Dir `
+	| %{ $_.FullName }
 
 # Rename Dirs
 $Dirs | %{ $NewDir = $_ -replace $OldGameName, $NewGameName; Rename-Item $_ $NewDir }
 
 # Get list of files that need to be renamed and contents replaced
-$Files = Get-ChildItem -Path $NewGameDir -Recurse -Include "*${OldGameName}*" -File | %{ $_.FullName }
+# Explicitly DO NOT match "XistGameMode.*", but do match other XistGame files
+$Files = Get-ChildItem -Path $NewGameDir -Recurse -Include "*${OldGameName}*" -File `
+	| %{ if ($_.BaseName -ne "XistGameMode") { $_.FullName } }
 
 # Replace content in files (save to new filenames)
-$Files | %{ $NewFile = $_ -replace $OldGameName, $NewGameName; (Get-Content $_) -replace $OldGameName, $NewGameName | Set-Content $NewFile }
+$Files | %{ $NewFile = $_ -replace $OldGameName, $NewGameName; `
+	(Get-Content $_) -replace $OldGameName, $NewGameName `
+		| Set-Content $NewFile }
 
 # Delete old files
 $Files | Remove-Item
@@ -54,3 +59,12 @@ In particular you will want to make a manual edit to the top of `Config/DefaultE
 ```
 
 (Change `MyGame` to whatever your game name is).
+
+## Follow-up
+
+After you complete the steps above, open Rider, build the project, start the UEditor,
+then "Resave All" of the `Content` assets.
+
+After you do that, you can remove the `[CoreRedirects]` section from `DefaultEngine.ini`
+
+(Conversely you can "Fixup Redirects" if you don't want to Resave All)
