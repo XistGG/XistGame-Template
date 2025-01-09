@@ -1,4 +1,4 @@
-# XistGame UE 5.5 Empty Game Template
+# XistGame -- UE 5.5 Empty Game Template
 
 This is a very simple TopDown game template for quick prototyping and testing.
 
@@ -6,20 +6,31 @@ Clone this repository and then rename it whatever you want.
 
 To rename the project after cloning:
 
-```powershell
-# Set this to the dir where you cloned this repo
-$NewGameDir = "C:/Path/To/Clone"
+## Setup -- MAKE SURE YOU DO THIS FIRST
 
+```powershell
 # Set this to your new game name
 $NewGameName = "MyGame"
+```
 
+## Rename Procedure -- DO THIS SECOND
+
+```powershell
 $OldGameName = "XistGame"  # keep this the same
 
+# Clone XistGame-Template into $NewGameName
+git clone https://github.com/XistGG/XistGame-Template $NewGameName
+
+cd $NewGameName
+
 # NUKE the .git repo for XistGame since we're making a new game with a new repo
-rmdir -force -recurse $NewGameDir/.git
+Remove-Item -force -recurse .git
 
 # Get list of dirs that need to be renamed
 $Dirs = Get-ChildItem -Path $NewGameDir -Recurse -Include "*${OldGameName}*" -Dir | %{ $_.FullName }
+
+# Rename Dirs
+$Dirs | %{ $NewDir = $_ -replace $OldGameName, $NewGameName; Rename-Item $_ $NewDir }
 
 # Get list of files that need to be renamed and contents replaced
 $Files = Get-ChildItem -Path $NewGameDir -Recurse -Include "*${OldGameName}*" -File | %{ $_.FullName }
@@ -29,8 +40,17 @@ $Files | %{ $NewFile = $_ -replace $OldGameName, $NewGameName; (Get-Content $_) 
 
 # Delete old files
 $Files | Remove-Item
-
-# Rename Dirs
-$Dirs | %{ $NewDir = $_ -replace $OldGameName, $NewGameName; Rename-Item $_ $NewDir }
 ```
 
+## Manual Work
+
+After you do this, look in the `Config` directory and update the configs for your game.
+
+In particular you will want to make a manual edit to the top of `Config/DefaultEngine.ini`
+
+```ini
+[CoreRedirects]
++PackageRedirects=(OldName="/Script/XistGame", NewName="/Script/MyGame", MatchSubstring=true)
+```
+
+(Change `MyGame` to whatever your game name is).
