@@ -7,7 +7,6 @@
 #include "GameFramework/PlayerController.h"
 #include "XistPlayerController.generated.h"
 
-/** Forward declaration to improve compiling times */
 class UNiagaraSystem;
 class UInputMappingContext;
 class UInputAction;
@@ -18,8 +17,10 @@ class AXistPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+	// Set class defaults
 	AXistPlayerController();
 
+protected:
 	/** Time Threshold to know if it was a short press */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	float ShortPressThreshold;
@@ -40,13 +41,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* SetDestinationTouchAction;
 
-protected:
-	/** True if the controlled character should navigate to the mouse cursor. */
-	uint32 bMoveToMouseCursor : 1;
-
+	//~Begin APlayerController interface
 	virtual void SetupInputComponent() override;
-	
+	//~End of APlayerController interface
+
+	//~Begin AActor interface
 	virtual void BeginPlay() override;
+	//~End of AActor interface
 
 	/** Input handlers for SetDestination action. */
 	void OnInputStarted();
@@ -58,8 +59,8 @@ protected:
 private:
 	FVector CachedDestination;
 
-	bool bIsTouch; // Is it a touch device
-	float FollowTime; // For how long it has been pressed
+	bool bIsTouch {false}; // Is it a touch device
+	float FollowTime {0.f}; // For how long it has been pressed
 };
 
 

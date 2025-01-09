@@ -12,12 +12,13 @@
 #include "XistLog.h"
 #include "Engine/LocalPlayer.h"
 
+// Set class defaults
 AXistPlayerController::AXistPlayerController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
-	FollowTime = 0.f;
+	ShortPressThreshold = 0.2f;  // 200 ms
 
 	static ConstructorHelpers::FObjectFinder<UNiagaraSystem> BP_Cursor(TEXT("/Game/UI/Cursor/FX_Cursor"));
 	FXCursor = BP_Cursor.Object;
