@@ -1,4 +1,4 @@
-# XistGame -- UE 5.5 Empty Game Template
+# XistGame -- UE 5.8 Empty Game Template
 
 This is a very simple TopDown game template for quick prototyping and testing.
 
@@ -47,7 +47,7 @@ $Files | %{ $NewFile = $_ -replace $OldGameName, $NewGameName; `
 $Files | Remove-Item
 ```
 
-## Manual Work
+## Manual Work -- DO THIS THIRD
 
 After you do this, look in the `Config` directory and update the configs for your game.
 
@@ -60,10 +60,11 @@ In particular you will want to make a manual edit to the top of `Config/DefaultE
 
 (Change `MyGame` to whatever your game name is).
 
-## Follow-up
+## Optional, Recommended Follow-up
 
 After you complete the steps above, open Rider, build the project, start the UEditor,
 then "Resave All" of the `Content` assets.  This will save them all using your new
 project name.
 
 After you do that, you can remove the `[CoreRedirects]` section from `DefaultEngine.ini`
+since the binary content will now be updated to use your new names.
