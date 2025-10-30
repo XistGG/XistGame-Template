@@ -1,7 +1,8 @@
 # XistGame -- UE 5.7 Empty Game Template
 
-Requires: UE 5.8
-| [UE 5.7 branch](https://github.com/XistGG/XistGame-Template/tree/ue-5.7)
+Requires one of:
+[UE 5.8](https://github.com/XistGG/XistGame-Template/tree/ue-5.8) |
+[UE 5.7](https://github.com/XistGG/XistGame-Template/tree/ue-5.7)
 
 This is a very simple TopDown game template for quick prototyping and testing.
 
