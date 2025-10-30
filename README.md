@@ -77,9 +77,8 @@ $Dirs | %{ $NewDir = $_ -replace $OldGameName, $NewGameName; Rename-Item $_ $New
 
 ```powershell
 # Get list of files that need to be renamed and contents replaced
-# Explicitly DO NOT match "XistGameMode.*", but do match other XistGame files
 $Files = Get-ChildItem -Path $NewGameDir -Recurse -Include "*${OldGameName}*" -File `
-	| %{ if ($_.BaseName -ne "XistGameMode") { $_.FullName } }
+	| %{ $_.FullName }
 ```
 
 ```powershell

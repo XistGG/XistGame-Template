@@ -1,13 +1,14 @@
 // Copyright (c) 2025 Xist.GG LLC
 
-#include "XistGameMode.h"
+#include "XistGameGameMode.h"
 #include "XistPlayerController.h"
 #include "XistCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
-AXistGameMode::AXistGameMode()
+// Set Class Defaults
+AXistGameGameMode::AXistGameGameMode(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
-	// Set default classes
 	DefaultPawnClass = AXistCharacter::StaticClass();
 	PlayerControllerClass = AXistPlayerController::StaticClass();
 
