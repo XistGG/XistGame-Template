@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class XistGameEditorTarget : TargetRules
 {
-	public XistGameEditorTarget( TargetInfo Target) : base(Target)
+	public XistGameEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V6;
