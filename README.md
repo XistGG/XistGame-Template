@@ -1,4 +1,4 @@
-# XistGame -- UE 5.8 Empty Game Template
+# XistGame -- UE 5.7 Empty Game Template
 
 This is a very simple TopDown game template for quick prototyping and testing.
 
