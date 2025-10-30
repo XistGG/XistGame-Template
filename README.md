@@ -55,6 +55,9 @@ git clone https://github.com/XistGG/XistGame-Template $NewGameName
 cd $NewGameName
 ```
 
+If you want to switch branches, now is the time!
+We're about to nuke the old template `.git` repo from the new game directory.
+
 ```powershell
 # NUKE the .git repo for XistGame since we're making a new game with a new repo
 Remove-Item -force -recurse .git
@@ -106,6 +109,28 @@ $reReplace = "`$1+PackageRedirects=(OldName=`"/Script/$OldGameName`", NewName=`"
 # Replace the template Config/DefaultEngine.ini with the game-specific Config/DefaultEngine.ini.$NewGameName
 Move-Item -force "Config/DefaultEngine.ini.$NewGameName" "Config/DefaultEngine.ini"
 ```
+
+### Optional: Initialize Git repo
+
+If you want to initialize a new Git repo for your new game, follow the instructions here:
+
+https://github.com/XistGG/UE5-Git-Init
+
+After you have created **AT LEAST** `.gitignore` and `.gitattributes`,
+run these terminal commands one at a time:
+
+```powershell
+git init
+
+git lfs install
+
+git add .gitignore .gitattributes
+
+git commit -m "Initialize UE5 Git Repo"
+```
+
+If you get errors related to `git lfs`, you may need to
+[install Git LFS](https://www.google.com/search?q=install+Git+LFS)
 
 ## PROJECT SPECIFIC: Configure Files: `Config/*.ini`
 
