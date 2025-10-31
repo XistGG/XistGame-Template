@@ -100,7 +100,7 @@ try
 
 	# Fix names in Config/DefaultEngine.ini CoreRedirects
 
-	$ClassRedirect = "+ClassRedirects=(OldName=`"/Script/$OldGameName.$OldGameName`", NewName=`"/Script/$NewGameName.$NewGameName`", MatchSubstring=true)"
+	$ClassRedirect = "+ClassRedirects=(OldName=`"/Script/$OldGameName.$OldGameName...`", NewName=`"/Script/$NewGameName.$NewGameName`", MatchWildcard=true)"
 	$PackageRedirect = "+PackageRedirects=(OldName=`"/Script/$OldGameName`", NewName=`"/Script/$NewGameName`")"
 
 	# This searches for a specific marker that should only exist in our DefaultEngine.ini template
