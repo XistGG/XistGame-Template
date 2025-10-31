@@ -4,15 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "XistCharacter.generated.h"
+#include "XistGameCharacter.generated.h"
 
 UCLASS(Blueprintable)
-class AXistCharacter : public ACharacter
+class AXistGameCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	AXistCharacter();
+	AXistGameCharacter();
 
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;

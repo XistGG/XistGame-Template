@@ -4,4 +4,4 @@
 
 #include "Logging/LogMacros.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogXist, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogXistGame, Log, All);

@@ -1,7 +1,8 @@
-# XistGame -- UE 5.8 Empty Game Template
+# XistGame -- UE 5.7 Empty Game Template
 
-Requires: UE 5.8
-| [UE 5.7 branch](https://github.com/XistGG/XistGame-Template/tree/ue-5.7)
+Requires one of:
+[UE 5.8](https://github.com/XistGG/XistGame-Template/tree/ue-5.8) |
+[UE 5.7](https://github.com/XistGG/XistGame-Template/tree/ue-5.7)
 
 This is a very simple TopDown game template for quick prototyping and testing.
 
@@ -17,16 +18,9 @@ and you understand what it does before you execute it.
 #### Powershell Procedure:
 
 ```powershell
-# keep this the same, these are the names we're replacing
-$OldGameName = "XistGame"
-```
-
-```powershell
 ## CHANGE THIS to your game name
 $NewGameName = "MyGame"
-```
 
-```powershell
 ## CHANGE THIS to be your desired project root directory
 $DevRoot = "C:/Dev"
 ```
@@ -43,74 +37,38 @@ $DevRoot = "C:/Dev"
 #### Powershell Procedure:  *(you **must** have configured the variables above)*
 
 ```powershell
+# Make sure we are in your Dev workspace root
 cd $DevRoot
-```
 
-```powershell
 # Clone XistGame-Template into $NewGameName
 git clone https://github.com/XistGG/XistGame-Template $NewGameName
 ```
 
-```powershell
-cd $NewGameName
-```
-
 If you want to switch branches, now is the time!
-We're about to nuke the old template `.git` repo from the new game directory.
+
+When you are happy with the branch you are on:
 
 ```powershell
-# NUKE the .git repo for XistGame since we're making a new game with a new repo
-Remove-Item -force -recurse .git
+cd $DevRoot/$NewGameName
+
+# This refactor might take a while depending on your hardware
+./Scripts/Refactor.ps1 -NewGameName $NewGameName
 ```
+
+#### Cleanup files we do not want in the new project
 
 ```powershell
-# Get list of dirs that need to be renamed
-$Dirs = Get-ChildItem -Path $NewGameDir -Recurse -Include "*${OldGameName}*" -Dir `
-	| %{ $_.FullName }
+cd $DevRoot/$NewGameName
+
+# Don't want Scripts dir anymore
+rmdir -force -recurse Scripts
+
+# Disassociate our new game project from the template Git repo.
+# NUKE the .git repo for XistGame since we're making a new game with a new repo.
+Remove-Item -Force -Recurse $DevRoot/$NewGameName/.git
 ```
 
-```powershell
-# Rename Dirs
-$Dirs | %{ $NewDir = $_ -replace $OldGameName, $NewGameName; Rename-Item $_ $NewDir }
-```
-
-```powershell
-# Get list of files that need to be renamed and contents replaced
-# Explicitly DO NOT match "XistGameMode.*", but do match other XistGame files
-$Files = Get-ChildItem -Path $NewGameDir -Recurse -Include "*${OldGameName}*" -File `
-	| %{ if ($_.BaseName -ne "XistGameMode") { $_.FullName } }
-```
-
-```powershell
-# Replace content in files (save to new filenames)
-$Files | %{ $NewFile = $_ -replace $OldGameName, $NewGameName; `
-	(Get-Content $_) -replace $OldGameName, $NewGameName `
-		| Set-Content $NewFile }
-```
-
-```powershell
-# Delete old files
-$Files | Remove-Item
-```
-
-```powershell
-# Fix names in Config/DefaultEngine.ini CoreRedirects
-
-# This searches for a specific marker that should only exist in our DefaultEngine.ini template
-$reSearch = "(?s)^(\[CoreRedirects\][\n\r]+);\+PackageRedirects\=XIST_GAME_PACKAGE_REDIRECT[^\n\r]*"
-$reReplace = "`$1+PackageRedirects=(OldName=`"/Script/$OldGameName`", NewName=`"/Script/$NewGameName`", MatchSubstring=true)"
-
-# Generate the redirect for the marker (if it exists) in Config/DefaultEngine.ini
-(Get-Content -Raw "Config/DefaultEngine.ini") -replace $reSearch, $reReplace `
-	| Set-Content "Config/DefaultEngine.ini.$NewGameName"
-```
-
-```powershell
-# Replace the template Config/DefaultEngine.ini with the game-specific Config/DefaultEngine.ini.$NewGameName
-Move-Item -force "Config/DefaultEngine.ini.$NewGameName" "Config/DefaultEngine.ini"
-```
-
-### Optional: Initialize Git repo
+### Optional: Initialize New Git repo
 
 If you want to initialize a new Git repo for your new game, follow the instructions here:
 
