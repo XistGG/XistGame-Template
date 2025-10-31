@@ -89,7 +89,8 @@ try
 	# Replace content in files (save to new filenames if needed).
 	# Two operations so the read completes before the write begins;
 	# supports files that do not change names.
-	$AllFiles = $KeepFiles + $OldFiles
+	$AllFiles = @()  # keep list initialization
+	$AllFiles = $AllFiles + $KeepFiles + $OldFiles
 	$AllFiles | %{ $NewFile = $_ -replace $OldGameName, $NewGameName; `
 		$tmp = (Get-Content $_) -replace $OldGameName, $NewGameName; `
 		$tmp > $NewFile }
@@ -99,9 +100,13 @@ try
 
 	# Fix names in Config/DefaultEngine.ini CoreRedirects
 
+	$ClassRedirect = "+ClassRedirects=(OldName=`"/Script/$OldGameName.$OldGameName`", NewName=`"/Script/$NewGameName.$NewGameName`", MatchSubstring=true)"
+	$PackageRedirect = "+PackageRedirects=(OldName=`"/Script/$OldGameName`", NewName=`"/Script/$NewGameName`")"
+
 	# This searches for a specific marker that should only exist in our DefaultEngine.ini template
-	$reSearch = "(?s)^(\[CoreRedirects\][\n\r]+);\+PackageRedirects\=XIST_GAME_PACKAGE_REDIRECT[^\n\r]*"
-	$reReplace = "`$1+PackageRedirects=(OldName=`"/Script/$OldGameName`", NewName=`"/Script/$NewGameName`", MatchSubstring=true)"
+	$newline = [Environment]::NewLine
+	$reSearch = "(?s)^(\[CoreRedirects\][\n\r]+);; XIST_GAME_ADD_REDIRECTS_HERE[^\n\r]*"
+	$reReplace = "`$1$ClassRedirect$newline$PackageRedirect"
 
 	# Generate the redirect for the marker (if it exists) in Config/DefaultEngine.ini
 	(Get-Content -Raw "Config/DefaultEngine.ini") -replace $reSearch, $reReplace `
