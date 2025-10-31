@@ -98,16 +98,14 @@ After you do this, look in the `Config` directory and update the configs for you
 
 #### Verify auto-generated CoreRedirect
 
-Notice the first few lines in `Config/DefaultEngine.ini`, which will look something like this:
+Notice the first few lines in `Config/DefaultEngine.ini`, which will look something like the following
+if your `$NewGameName` is `MyGame`:
 
 ```ini
 [CoreRedirects]
-+PackageRedirects=(OldName="/Script/XistGame", NewName="/Script/MyGame", MatchSubstring=true)
++ClassRedirects=(OldName="/Script/XistGame.XistGame...", NewName="/Script/MyGame.MyGame", MatchWildcard=true)
++PackageRedirects=(OldName="/Script/XistGame", NewName="/Script/MyGame")
 ```
-
-- Verify that the `NewName="/Script/MyGame"` part has the correct name of your game.
-- If you skipped the rename search/replace command, make sure you manually add a `PackageRedirect`
-  from `OldName="/Script/XistGame"` to `NewName="/Script/$NewGameName"`, like the example above.
 
 ## Optional, Recommended Follow-up
 
@@ -117,6 +115,13 @@ Notice the first few lines in `Config/DefaultEngine.ini`, which will look someth
 - Run the Development Editor
 - Right click in the `Content` directory and choose `Resave All...`
   - Resave all binary assets to use new game names
+- After successful Resave, remove the `[CoreRedirects]` section from `DefaultEngine.ini`
 
-After you do that, you can remove the `[CoreRedirects]` section from `DefaultEngine.ini`
-since the binary content will now be updated to use your new names.
+While this isn't strictly necessary, this will make your Editor run faster.
+
+CoreRedirects slow down the Editor, especially the `MatchWildcard` type we use here.
+
+For best performance, you will want to resave the assets with the redirects
+in place, and then remove the Redirects.
+
+Ideally, perform this Resave before you commit your initial binaries to Git.
