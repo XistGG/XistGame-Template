@@ -1,4 +1,4 @@
-# XistGame -- UE 5.7 Empty Game Template
+# XistGame -- UE 5.8 Empty Game Template
 
 Requires one of:
 [UE 5.8](https://github.com/XistGG/XistGame-Template/tree/ue-5.8) |
