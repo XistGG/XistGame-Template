@@ -16,18 +16,3 @@ max_line_length = 120
 [*.{csproj,proj,projitems,shproj,fsproj,target,props}]
 indent_style = space
 indent_size = 2
-
-# XML config files
-[*.{config,nuspec,resx,natvis}]
-indent_style = space
-indent_size = 2
-
-# Python files
-[*.py]
-indent_style = space
-indent_size = 4
-
-# YAML files
-[*.yaml]
-indent_style = space
-indent_size = 2
