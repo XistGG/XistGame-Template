@@ -11,33 +11,34 @@
 #include "InputMappingContext.h"
 #include "XistGameLog.h"
 #include "Engine/LocalPlayer.h"
-#include "UObject/ConstructorHelpers.h"
 
 // Set class defaults
-AXistGamePlayerController::AXistGamePlayerController()
+AXistGamePlayerController::AXistGamePlayerController(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
 	ShortPressThreshold = 0.2f;  // 200 ms
+}
 
-	static ConstructorHelpers::FObjectFinder<UNiagaraSystem> BP_Cursor(TEXT("/Game/UI/Cursor/FX_Cursor"));
-	FXCursor = BP_Cursor.Object;
+void AXistGamePlayerController::PostInitProperties()
+{
+	Super::PostInitProperties();
 
-	static ConstructorHelpers::FObjectFinder<UInputMappingContext> BP_IMC(TEXT("/Game/Input/IMC_Default"));
-	DefaultMappingContext = BP_IMC.Object;
-
-	static ConstructorHelpers::FObjectFinder<UInputAction> BP_ClickAction(TEXT("/Game/Input/Actions/IA_SetDestination_Click"));
-	SetDestinationClickAction = BP_ClickAction.Object;
-
-	static ConstructorHelpers::FObjectFinder<UInputAction> BP_TouchAction(TEXT("/Game/Input/Actions/IA_SetDestination_Touch"));
-	SetDestinationTouchAction = BP_TouchAction.Object;
+	ApplyIniSettings();
 }
 
 void AXistGamePlayerController::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	// Help the dev understand if they've misconfigured a required setting
+	ensureMsgf(FXCursor != nullptr, TEXT("%hs: You didn't configure a valid FXCursor"), __FUNCTION__);
+	ensureMsgf(DefaultMappingContext != nullptr, TEXT("%hs: You didn't configure a valid DefaultMappingContext"), __FUNCTION__);
+	ensureMsgf(SetDestinationClickAction != nullptr, TEXT("%hs: You didn't configure a valid SetDestinationClickAction"), __FUNCTION__);
+	ensureMsgf(SetDestinationTouchAction != nullptr, TEXT("%hs: You didn't configure a valid SetDestinationTouchAction"), __FUNCTION__);
 }
 
 void AXistGamePlayerController::SetupInputComponent()
@@ -134,4 +135,39 @@ void AXistGamePlayerController::OnTouchReleased()
 {
 	bIsTouch = false;
 	OnSetDestinationReleased();
+}
+
+void AXistGamePlayerController::ApplyIniSettings()
+{
+	if (FXCursor == nullptr
+		&& not FXCursorPath.IsEmpty())
+	{
+		FXCursor = Cast<UNiagaraSystem>(StaticLoadObject(UNiagaraSystem::StaticClass(), nullptr,
+			FXCursorPath, nullptr, LOAD_None, nullptr));
+		UE_CLOG(FXCursor == nullptr, LogXistGame, Error, TEXT("%hs: FXCursorPath [%s] is not valid"), __FUNCTION__, *FXCursorPath);
+	}
+
+	if (DefaultMappingContext == nullptr
+		&& not IMCPath.IsEmpty())
+	{
+		DefaultMappingContext = Cast<UInputMappingContext>(StaticLoadObject(UInputMappingContext::StaticClass(), nullptr,
+			IMCPath, nullptr, LOAD_None, nullptr));
+		UE_CLOG(DefaultMappingContext == nullptr, LogXistGame, Error, TEXT("%hs: IMCPath [%s] is not valid"), __FUNCTION__, *IMCPath);
+	}
+
+	if (SetDestinationClickAction == nullptr
+		&& not SetDestClickActionPath.IsEmpty())
+	{
+		SetDestinationClickAction = Cast<UInputAction>(StaticLoadObject(UInputAction::StaticClass(), nullptr,
+			SetDestClickActionPath, nullptr, LOAD_None, nullptr));
+		UE_CLOG(SetDestinationClickAction == nullptr, LogXistGame, Error, TEXT("%hs: SetDestClickActionPath [%s] is not valid"), __FUNCTION__, *SetDestClickActionPath);
+	}
+
+	if (SetDestinationTouchAction == nullptr
+		&& not SetDestTouchActionPath.IsEmpty())
+	{
+		SetDestinationTouchAction = Cast<UInputAction>(StaticLoadObject(UInputAction::StaticClass(), nullptr,
+			SetDestTouchActionPath, nullptr, LOAD_None, nullptr));
+		UE_CLOG(SetDestinationTouchAction == nullptr, LogXistGame, Error, TEXT("%hs: SetDestTouchActionPath [%s] is not valid"), __FUNCTION__, *SetDestTouchActionPath);
+	}
 }

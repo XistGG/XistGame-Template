@@ -3,7 +3,6 @@
 #include "XistGameGameMode.h"
 #include "XistGamePlayerController.h"
 #include "XistGameCharacter.h"
-#include "UObject/ConstructorHelpers.h"
 
 // Set Class Defaults
 AXistGameGameMode::AXistGameGameMode(const FObjectInitializer& ObjectInitializer)
@@ -11,18 +10,21 @@ AXistGameGameMode::AXistGameGameMode(const FObjectInitializer& ObjectInitializer
 {
 	DefaultPawnClass = AXistGameCharacter::StaticClass();
 	PlayerControllerClass = AXistGamePlayerController::StaticClass();
+}
 
-	// set default pawn class to our Blueprinted character if possible
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/BP_Character"));
-	if (PlayerPawnBPClass.Class != nullptr)
+void AXistGameGameMode::PostInitProperties()
+{
+	Super::PostInitProperties();
+
+	if (OverridePawnClass)
 	{
-		DefaultPawnClass = PlayerPawnBPClass.Class;
+		// Override default class based on INI
+		DefaultPawnClass = OverridePawnClass;
 	}
 
-	// set default controller to our Blueprinted controller if possible
-	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerBPClass(TEXT("/Game/Blueprints/BP_PlayerController"));
-	if (PlayerControllerBPClass.Class != nullptr)
+	if (OverridePlayerControllerClass)
 	{
-		PlayerControllerClass = PlayerControllerBPClass.Class;
+		// Override default class based on INI
+		PlayerControllerClass = OverridePlayerControllerClass;
 	}
 }
