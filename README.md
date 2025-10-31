@@ -29,10 +29,6 @@ $DevRoot = "C:/Dev"
 
 - Clone https://github.com/XistGG/XistGame-Template
 - Rename Clone directory to `$NewGameName`
-- Disassociate your new game from the template Git repo
-- Rename directories and files based on your name
-- Replace content in source code based on your name
-- Add CoreRedirect based on your name
 
 #### Powershell Procedure:  *(you **must** have configured the variables above)*
 
@@ -48,6 +44,10 @@ If you want to switch branches, now is the time!
 
 When you are happy with the branch you are on:
 
+- Rename directories and files based on your name
+- Replace content in source code based on your name
+- Add CoreRedirect based on your name
+
 ```powershell
 cd $DevRoot/$NewGameName
 
@@ -57,25 +57,24 @@ cd $DevRoot/$NewGameName
 
 #### Cleanup files we do not want in the new project
 
+- Remove the [Scripts](./Scripts/) directory *(we ran the 1 script above, and we will not need it again)*
+- Disassociate your new game from the template Git repo
+
 ```powershell
 cd $DevRoot/$NewGameName
 
 # Don't want Scripts dir anymore
-rmdir -force -recurse Scripts
+Remove-Item -Force -Recurse Scripts
 
 # Disassociate our new game project from the template Git repo.
 # NUKE the .git repo for XistGame since we're making a new game with a new repo.
-Remove-Item -Force -Recurse $DevRoot/$NewGameName/.git
+Remove-Item -Force -Recurse .git
 ```
 
 ### Optional: Initialize New Git repo
 
-If you want to initialize a new Git repo for your new game, follow the instructions here:
-
-https://github.com/XistGG/UE5-Git-Init
-
-After you have created **AT LEAST** `.gitignore` and `.gitattributes`,
-run these terminal commands one at a time:
+For now, you can just keep the Git config from the Template repo
+unless you need to modify them specifically for your project needs.
 
 ```powershell
 git init
@@ -89,6 +88,9 @@ git commit -m "Initialize UE5 Git Repo"
 
 If you get errors related to `git lfs`, you may need to
 [install Git LFS](https://www.google.com/search?q=install+Git+LFS)
+
+For more info regarding setting up a new UE5 Git repository, see
+https://github.com/XistGG/UE5-Git-Init
 
 ## PROJECT SPECIFIC: Configure Files: `Config/*.ini`
 
