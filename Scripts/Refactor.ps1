@@ -89,7 +89,7 @@ try
 	# Replace content in files (save to new filenames if needed).
 	# Two operations so the read completes before the write begins;
 	# supports files that do not change names.
-	$AllFiles = @($OldFiles, $KeepFiles)
+	$AllFiles = $KeepFiles + $OldFiles
 	$AllFiles | %{ $NewFile = $_ -replace $OldGameName, $NewGameName; `
 		$tmp = (Get-Content $_) -replace $OldGameName, $NewGameName; `
 		$tmp > $NewFile }
