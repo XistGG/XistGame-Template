@@ -8,6 +8,8 @@ public class XistGame : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
+		PublicIncludePaths.AddRange(new string[] { "XistGame" });
+
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
 		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule", "Niagara" });
 	}
