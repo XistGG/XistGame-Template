@@ -1,16 +1,16 @@
 // Copyright (c) 2025 Xist.GG LLC
 
 #include "XistGameGameMode.h"
-#include "XistPlayerController.h"
-#include "XistCharacter.h"
+#include "XistGamePlayerController.h"
+#include "XistGameCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 // Set Class Defaults
 AXistGameGameMode::AXistGameGameMode(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	DefaultPawnClass = AXistCharacter::StaticClass();
-	PlayerControllerClass = AXistPlayerController::StaticClass();
+	DefaultPawnClass = AXistGameCharacter::StaticClass();
+	PlayerControllerClass = AXistGamePlayerController::StaticClass();
 
 	// set default pawn class to our Blueprinted character if possible
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/BP_Character"));

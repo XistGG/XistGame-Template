@@ -5,20 +5,20 @@
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
-#include "XistPlayerController.generated.h"
+#include "XistGamePlayerController.generated.h"
 
 class UNiagaraSystem;
 class UInputMappingContext;
 class UInputAction;
 
 UCLASS()
-class AXistPlayerController : public APlayerController
+class AXistGamePlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
 public:
 	// Set class defaults
-	AXistPlayerController();
+	AXistGamePlayerController();
 
 protected:
 	/** Time Threshold to know if it was a short press */

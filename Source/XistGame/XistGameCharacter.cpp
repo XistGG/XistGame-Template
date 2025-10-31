@@ -1,6 +1,6 @@
 // Copyright (c) 2025 Xist.GG LLC
 
-#include "XistCharacter.h"
+#include "XistGameCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
@@ -11,7 +11,7 @@
 #include "Materials/Material.h"
 #include "Engine/World.h"
 
-AXistCharacter::AXistCharacter()
+AXistGameCharacter::AXistGameCharacter()
 {
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -45,7 +45,7 @@ AXistCharacter::AXistCharacter()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 }
 
-void AXistCharacter::Tick(float DeltaSeconds)
+void AXistGameCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 }
