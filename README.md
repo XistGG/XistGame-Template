@@ -38,9 +38,12 @@ cd $DevRoot
 
 # Clone XistGame-Template into $NewGameName
 git clone https://github.com/XistGG/XistGame-Template $NewGameName
+
+# NOTICE: IF YOU WANT TO SWITCH BRANCHES, DO SO NOW. For example:
+# git checkout ue-5.7
 ```
 
-If you want to switch branches, now is the time!
+**If you want to switch branches, now is the time!**
 
 When you are happy with the branch you are on:
 
@@ -49,6 +52,7 @@ When you are happy with the branch you are on:
 - Add CoreRedirect based on your name
 
 ```powershell
+# Make sure we are in your Dev workspace root
 cd $DevRoot/$NewGameName
 
 # This refactor might take a while depending on your hardware
@@ -61,6 +65,7 @@ cd $DevRoot/$NewGameName
 - Disassociate your new game from the template Git repo
 
 ```powershell
+# Make sure we are in your Dev workspace root
 cd $DevRoot/$NewGameName
 
 # Don't want Scripts dir anymore
@@ -77,6 +82,9 @@ For now, you can just keep the Git config from the Template repo
 unless you need to modify them specifically for your project needs.
 
 ```powershell
+# Make sure we are in your Dev workspace root
+cd $DevRoot/$NewGameName
+
 git init
 
 git lfs install
