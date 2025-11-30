@@ -91,9 +91,13 @@ try
 	# supports files that do not change names.
 	$AllFiles = @()  # keep list initialization
 	$AllFiles = $AllFiles + $KeepFiles + $OldFiles
-	$AllFiles | %{ $NewFile = $_ -replace $OldGameName, $NewGameName; `
-		$tmp = (Get-Content $_) -replace $OldGameName, $NewGameName; `
-		$tmp > $NewFile }
+	$AllFiles | %{ `
+		$NewFile = $_ -replace $OldGameName, $NewGameName; `
+		$NewContent = (Get-Content $_) `
+			-creplace $OldGameName.ToUpper(), $NewGameName.ToUpper() `
+			-creplace $OldGameName, $NewGameName; `
+		$NewContent > $NewFile; `
+	}
 
 	# Delete $OldFiles only. Do not delete $KeepFiles
 	$OldFiles | Remove-Item
