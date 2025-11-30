@@ -118,6 +118,9 @@ try
 
 	# Replace the template Config/DefaultEngine.ini with the game-specific Config/DefaultEngine.ini.$NewGameName
 	Move-Item -Force "Config/DefaultEngine.ini.$NewGameName" Config/DefaultEngine.ini
+
+	# Replace the XistGame-Template README with the new refactored game name README
+	Move-Item -Force README.Template.md README.md
 }
 finally
 {
