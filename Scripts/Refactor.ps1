@@ -1,4 +1,4 @@
-#/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 #
 # XistGame-Template/Scripts/Refactor.ps1
 #
