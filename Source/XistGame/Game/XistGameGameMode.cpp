@@ -8,6 +8,11 @@
 AXistGameGameMode::AXistGameGameMode(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+	// Never tick actors unless it's absolutely required
+	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+
+	// Enable use of XistGame classes
 	DefaultPawnClass = AXistGameCharacter::StaticClass();
 	PlayerControllerClass = AXistGamePlayerController::StaticClass();
 }
