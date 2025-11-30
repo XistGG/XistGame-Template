@@ -13,7 +13,8 @@
  * @see Config/DefaultXistGame.ini
  */
 UCLASS(Blueprintable, Config=XistGame)
-class AXistGameGameMode : public AGameModeBase
+class XISTGAME_API AXistGameGameMode
+	: public AGameModeBase
 {
 	GENERATED_BODY()
 

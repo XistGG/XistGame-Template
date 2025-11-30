@@ -20,7 +20,8 @@ and you understand what it does before you execute it.
 ```powershell
 ## CHANGE THIS to your game name
 $NewGameName = "MyGame"
-
+```
+```powershell
 ## CHANGE THIS to be your desired project root directory
 $DevRoot = "C:/Dev"
 ```
@@ -38,9 +39,6 @@ cd $DevRoot
 
 # Clone XistGame-Template into $NewGameName
 git clone https://github.com/XistGG/XistGame-Template $NewGameName
-
-# NOTICE: IF YOU WANT TO SWITCH BRANCHES, DO SO NOW. For example:
-# git checkout ue-5.7
 ```
 
 **If you want to switch branches, now is the time!**
@@ -55,6 +53,10 @@ When you are happy with the branch you are on:
 # Make sure we are in your Dev workspace root
 cd $DevRoot/$NewGameName
 
+# NOTICE: IF YOU WANT TO SWITCH BRANCHES, DO SO NOW. For example:
+# git checkout ue-5.7
+```
+```powershell
 # This refactor might take a while depending on your hardware
 ./Scripts/Refactor.ps1 -NewGameName $NewGameName
 ```
@@ -76,7 +78,7 @@ Remove-Item -Force -Recurse Scripts
 Remove-Item -Force -Recurse .git
 ```
 
-### Optional: Initialize New Git repo
+### RECOMMENDED: Initialize Your New Game Git repo
 
 For now, you can just keep the Git config from the Template repo
 unless you need to modify them specifically for your project needs.
@@ -100,36 +102,8 @@ If you get errors related to `git lfs`, you may need to
 For more info regarding setting up a new UE5 Git repository, see
 https://github.com/XistGG/UE5-Git-Init
 
-## PROJECT SPECIFIC: Configure Files: `Config/*.ini`
+### FINALLY: Open Your Game in Rider
 
-After you do this, look in the `Config` directory and update the configs for your game.
-
-#### Verify auto-generated CoreRedirect
-
-Notice the first few lines in `Config/DefaultEngine.ini`, which will look something like the following
-if your `$NewGameName` is `MyGame`:
-
-```ini
-[CoreRedirects]
-+ClassRedirects=(OldName="/Script/XistGame.XistGame...", NewName="/Script/MyGame.MyGame", MatchWildcard=true)
-+PackageRedirects=(OldName="/Script/XistGame", NewName="/Script/MyGame")
-```
-
-## Optional, Recommended Follow-up
-
-- Open the `.uproject` in Rider
-  - Or for other IDEs, generate project files and open the generated files
-- Build Config=`Development` Target=`Editor`
-- Run the Development Editor
-- Right click in the `Content` directory and choose `Resave All...`
-  - Resave all binary assets to use new game names
-- After successful Resave, remove the `[CoreRedirects]` section from `DefaultEngine.ini`
-
-While this isn't strictly necessary, this will make your Editor run faster.
-
-CoreRedirects slow down the Editor, especially the `MatchWildcard` type we use here.
-
-For best performance, you will want to resave the assets with the redirects
-in place, and then remove the Redirects.
-
-Ideally, perform this Resave before you commit your initial binaries to Git.
+- Open `$DevRoot/$NewGameName/$NewGameName.uproject` in Rider
+- Read your new Game README.md (it is copied from [README.Template.md](./README.Template.md))
+  - Follow the setup instructions there

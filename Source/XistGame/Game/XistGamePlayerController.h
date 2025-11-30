@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
 #include "XistGamePlayerController.generated.h"
 
+struct FInputActionInstance;
 class UNiagaraSystem;
 class UInputMappingContext;
 class UInputAction;
@@ -19,12 +19,13 @@ class UInputAction;
  * @see Config/DefaultXistGame.ini
  */
 UCLASS(Blueprintable, Config=XistGame)
-class AXistGamePlayerController : public APlayerController
+class XISTGAME_API AXistGamePlayerController
+	: public APlayerController
 {
 	GENERATED_BODY()
 
 public:
-	// Set class defaults
+	// Set Class Defaults
 	AXistGamePlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	//~Begin UObject interface
@@ -44,6 +45,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	TObjectPtr<UInputMappingContext> DefaultMappingContext;
 	
+	/** Camera Zoom Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	TObjectPtr<UInputAction> CameraZoomAction;
+
 	/** Click to Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	TObjectPtr<UInputAction> SetDestinationClickAction;
@@ -60,6 +65,9 @@ protected:
 	virtual void BeginPlay() override;
 	//~End of AActor interface
 
+	/** Camera Zoom input handler */
+	void OnCameraZoom(const FInputActionInstance& InputActionInstance);
+
 	/** Input handlers for SetDestination action. */
 	void OnInputStarted();
 	void OnSetDestinationTriggered();
@@ -75,6 +83,9 @@ protected:
 	FString IMCPath;
 
 	UPROPERTY(Config, VisibleAnywhere)
+	FString CameraZoomActionPath;
+
+	UPROPERTY(Config, VisibleAnywhere)
 	FString SetDestClickActionPath;
 
 	UPROPERTY(Config, VisibleAnywhere)
@@ -88,5 +99,3 @@ private:
 	bool bIsTouch {false}; // Is it a touch device
 	float FollowTime {0.f}; // For how long it has been pressed
 };
-
-

@@ -1,4 +1,4 @@
-#/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 #
 # XistGame-Template/Scripts/Refactor.ps1
 #
@@ -91,9 +91,13 @@ try
 	# supports files that do not change names.
 	$AllFiles = @()  # keep list initialization
 	$AllFiles = $AllFiles + $KeepFiles + $OldFiles
-	$AllFiles | %{ $NewFile = $_ -replace $OldGameName, $NewGameName; `
-		$tmp = (Get-Content $_) -replace $OldGameName, $NewGameName; `
-		$tmp > $NewFile }
+	$AllFiles | %{ `
+		$NewFile = $_ -replace $OldGameName, $NewGameName; `
+		$NewContent = (Get-Content $_) `
+			-creplace $OldGameName.ToUpper(), $NewGameName.ToUpper() `
+			-creplace $OldGameName, $NewGameName; `
+		$NewContent > $NewFile; `
+	}
 
 	# Delete $OldFiles only. Do not delete $KeepFiles
 	$OldFiles | Remove-Item
@@ -114,6 +118,9 @@ try
 
 	# Replace the template Config/DefaultEngine.ini with the game-specific Config/DefaultEngine.ini.$NewGameName
 	Move-Item -Force "Config/DefaultEngine.ini.$NewGameName" Config/DefaultEngine.ini
+
+	# Replace the XistGame-Template README with the new refactored game name README
+	Move-Item -Force README.Template.md README.md
 }
 finally
 {

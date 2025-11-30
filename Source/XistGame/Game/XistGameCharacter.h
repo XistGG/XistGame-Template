@@ -2,33 +2,38 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "XistGameCharacter.generated.h"
 
-UCLASS(Blueprintable)
-class AXistGameCharacter : public ACharacter
+/**
+ * AXistGameCharacter
+ * 
+ * This is the primary character class used in this project.
+ * 
+ * @see AXistGameGameMode
+ */
+UCLASS(Blueprintable, Config=XistGame)
+class XISTGAME_API AXistGameCharacter
+	: public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	AXistGameCharacter();
+	// Set Class Defaults
+	AXistGameCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
-	// Called every frame.
-	virtual void Tick(float DeltaSeconds) override;
-
-	/** Returns TopDownCameraComponent subobject **/
+	/** @return TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
-	/** Returns CameraBoom subobject **/
+
+	/** @return CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* TopDownCameraComponent;
+	TObjectPtr<class UCameraComponent> TopDownCameraComponent;
 
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+	TObjectPtr<class USpringArmComponent> CameraBoom;
 };
-
