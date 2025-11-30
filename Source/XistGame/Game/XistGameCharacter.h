@@ -13,7 +13,7 @@
  * @see AXistGameGameMode
  */
 UCLASS(Blueprintable, Config=XistGame)
-class AXistGameCharacter
+class XISTGAME_API AXistGameCharacter
 	: public ACharacter
 {
 	GENERATED_BODY()

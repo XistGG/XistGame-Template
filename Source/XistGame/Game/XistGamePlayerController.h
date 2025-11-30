@@ -19,7 +19,7 @@ class UInputAction;
  * @see Config/DefaultXistGame.ini
  */
 UCLASS(Blueprintable, Config=XistGame)
-class AXistGamePlayerController
+class XISTGAME_API AXistGamePlayerController
 	: public APlayerController
 {
 	GENERATED_BODY()
