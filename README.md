@@ -13,6 +13,10 @@ Follow the procedure below to fully customize your own new game based on this te
 Never trust someone else to think for you. Make sure you read each of these lines
 and you understand what it does before you execute it.
 
+This project uses Lumen by default.
+You must explicitly enable legacy hardware support and static lighting if needed
+for your project.
+
 ## SETUP: Configure Variables for your Project
 
 #### Powershell Procedure:
@@ -23,7 +27,7 @@ $NewGameName = "MyGame"
 ```
 ```powershell
 ## CHANGE THIS to be your desired project root directory
-$DevRoot = "C:/Dev"
+$DevRoot = "C:/Dev"  ## (on Linux/Mac use "~/dev")
 ```
 
 ## PROCEDURE: Setup Variables (above) then:
